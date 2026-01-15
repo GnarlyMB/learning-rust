@@ -1,20 +1,20 @@
 use scraper::Html;
-use tokio::net::TcpListener;
-use tokio::io::{AsyncReadExt, AsyncWriteExt};
 use input_rust::input;
 
 #[tokio::main]
 
-async fn main() {
+async fn main() -> Result<(), reqwest::Error>{
 
     // Make and take input via input-rust crate
     let input = input("Please enter in a link: ").unwrap();
     // Make the web request
-    let body = reqwest::get(input)
-        .await
-        .text()
-        .await;
-    println!("body = {body:?}");
+    let request = reqwest::get(input).await?;
+    println!("Response: {:?} {}", request.version(), request.status());
 
+
+    let body = request.text().await?;
+    println!("{body}");
+
+    Ok(())
 }
 
