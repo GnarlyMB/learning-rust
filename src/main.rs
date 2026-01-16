@@ -13,7 +13,9 @@ async fn main() -> Result<(), reqwest::Error>{
 
 
     let body = request.text().await?;
-    println!("{body}");
+    // println!("{body}");
+    let html_pull = Html::parse_document(&body);
+    println!("{html_pull}");
 
     Ok(())
 }
