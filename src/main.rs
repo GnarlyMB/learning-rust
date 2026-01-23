@@ -16,11 +16,14 @@ async fn main() -> Result<(), reqwest::Error>{
     // println!("{body}");
     let html_pull = Html::parse_document(&body);
     // Grab the src and href
-    let src = Selector::parse("src");
-    let href = Selector::parse("href");
+    let href = Selector::parse("href").unwrap();
+    for element in html_pull.select(&href) {
+
+        assert_eq!("href", element.value().name());
+    }
 
 
-    //println!("{:#?}", html_pull);
+    println!("{:#?}", html_pull);
 
     Ok(())
 }
